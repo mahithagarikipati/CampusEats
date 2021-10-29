@@ -75,3 +75,120 @@ Local restaurants are usually eager to find ways to provide food to customers wi
 | latitude         |             |             | varchar   | 75   | not null | location latitude           |
 | longitude        |             |             | varchar   | 75   | not null | location longitude          |
 | drop_off_point   |             |             | varchar   | 75   | not null | drop off point              |
+
+### Order table
+| Attributes      | Primary Key | Foreign Key | Data Type | size | null      | Description of the column                        |
+|-----------------|-------------|-------------|-----------|------|-----------|--------------------------------------------------|
+| order_id        | yes         |             | int       |      | not null  | id to identify the order (auto-increment)
+| person_id       |             | yes         | int       |      | not null  | id to identify the person                        |
+| delivery_id     |             | yes         | int       |      | not null  | id to identify the delivery                      |
+| location_id     |             | yes         | int       |      | not null  | id to identify the location                      |
+| driver_id       |             | yes         | int       |      | not null  | id to identify the driver                        |
+| restaurant_id   |             | yes         | int       |      | not null  | id to identify the restaurant                    |
+| total_price     |             |             | float     |      | not null  | total order price                                |
+| delivery_charge |             |             | float     |      | null      | delivery charge for the order                    |
+
+### Person table
+| Attributes   | Primary Key | Foreign Key | Data Type | size | null     | Description of the column              |
+|--------------|-------------|-------------|-----------|------|----------|----------------------------------------|
+| person_id    | yes         |             | int       |      | not null | id to identify person Auto-incremented |
+| person_name  |             |             | varchar   | 300  | null     | Name of the person                     |
+| person_email |             |             | varchar   | 150  | null     | Email of the person                    |
+| cell         |             |             | bigint    |      | null     | Cell phone number                      |
+
+### Restaurant table
+| Attributes      | Primary Key | Foreign Key | Data Type | size | null     | Description of the column                    |
+|-----------------|-------------|-------------|-----------|------|----------|----------------------------------------------|
+| restaurant_id   | yes         |             | int       |      | not null | id to identify the restaurant Auto-increment |
+| location        |             |             | varchar   | 75   | null     | restaurant location                          |
+| restaurant_name |             |             | varchar   | 75   | null     | name of the restaurant                       |
+| schedule        |             |             | varchar   | 75   | null     | restaurant schedule                          |
+| website         |             |             | varchar   | 75   | null     | website link for the restaurant              |
+
+### Staff table
+| Attributes | Primary Key | Foreign Key | Data Type | size | null     | Description of the column                 |
+|------------|-------------|-------------|-----------|------|----------|-------------------------------------------|
+| staff_id   | yes         |             | int       |      | not null | id to identify the staff auto-incremented |
+| person_id  |             | yes         | int       |      | null     | id to identify the person                 |
+| position   |             |             | varchar   | 75   | null     | position of the staff                     |
+| is_admin   |             |             | varchar   | 1    | null     | check admin staff(y/n)  defaulted to n    |
+
+### Student table
+| Attributes      | Primary Key | Foreign Key | Data Type | size | null     | Description of the column                 |
+|-----------------|-------------|-------------|-----------|------|----------|-------------------------------------------|
+| student_id      | yes         |             | int       |      | not null | id to identify the student auto-increment |
+| person_id       |             | yes         | int       |      | not null | id to identify each person                |
+| graduation_year |             |             | int       |      | null     | student graduation year                   |
+| major           |             |             | varchar   | 75   | null     | student major                             |
+| type            |             |             | varchar   | 75   | null     | check if graduate or under graduate       |
+
+### Vehicle table
+| Attributes    | Primary Key | Foreign Key | Data Type | size | null     | Description of the column    |
+|---------------|-------------|-------------|-----------|------|----------|------------------------------|
+| vehicle_id    | yes         |             | int       |      | not null | id to identify vehicle       |
+| vehicle_plate |             |             | varchar   | 75   | null     | vehicle license plate number |
+| model         |             |             | varchar   | 75   | null     | model of the vehicle         |
+| make          |             |             | varchar   | 75   | null     | make of the vehicle          |
+
+### person_join View
+This view contains the details of students whose major is in computer science.
+Below is the script for this view:
+
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `campus_eats_fall2020`.`person_join` AS
+    SELECT 
+        `campus_eats_fall2020`.`person`.`person_id` AS `person_id`,
+        `campus_eats_fall2020`.`person`.`person_name` AS `person_name`,
+        `campus_eats_fall2020`.`person`.`person_email` AS `person_email`,
+        `campus_eats_fall2020`.`student`.`student_id` AS `student_id`,
+        `campus_eats_fall2020`.`student`.`graduation_year` AS `graduation_year`
+    FROM
+        (`campus_eats_fall2020`.`person`
+        JOIN `campus_eats_fall2020`.`student` ON ((`campus_eats_fall2020`.`student`.`person_id` = `campus_eats_fall2020`.`person`.`person_id`)))
+    WHERE
+        (`campus_eats_fall2020`.`student`.`major` = 'Computer Science');
+        
+### person_student View
+This view contains the details of students who graduated in the year 2019
+Below is the script for this view:
+
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `campus_eats_fall2020`.`person_student` AS
+    SELECT 
+        `a`.`person_id` AS `person_id`,
+        `a`.`person_name` AS `person_name`,
+        `a`.`person_email` AS `person_email`,
+        `a`.`cell` AS `cell`
+    FROM
+        `campus_eats_fall2020`.`person` `a`
+    WHERE
+        `a`.`person_id` IN (SELECT 
+                `campus_eats_fall2020`.`student`.`person_id`
+            FROM
+                `campus_eats_fall2020`.`student`
+            WHERE
+                (`campus_eats_fall2020`.`student`.`graduation_year` = 2019));
+                
+### add_person procedure call
+This procedure call inserts the values in person table depending on the person_type. Based on this person_type, values are further inserted into faculty, staff or student table.
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_person`(in person_name varchar(300), in email varchar(150), cellno bigint (15), person_type varchar(10))
+BEGIN
+insert into person (person_name, person_email, cell) values(person_name, email, cellno);
+if(person_type = 'student') then
+insert into student (person_id, graduation_year, major, type) values 
+((select person_id from person where cell = cellno), 2019, 'Computer Science', 'Graduate');
+elseif(person_type = 'faculty') then
+insert into faculty (person_id, title, degree_college, highest_degree) values 
+((select person_id from person where cell = cellno), 'Assistant Professor', 'UCLA', 'PhD');
+elseif(person_type = 'staff') then
+insert into student (person_id, position, is_admin) values 
+((select person_id from person where cell = cellno), 'Bus Driver', 'N');
+end if;
+END;
