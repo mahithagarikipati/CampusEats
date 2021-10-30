@@ -36,8 +36,10 @@ Local restaurants are usually eager to find ways to provide food to customers wi
 
 *	This database should sever as important source about nutrition and eating habits of campus community members
 
-## EERD (with new tables)
+## EERD 
+<img width="800" alt="FinalEERD" src="https://user-images.githubusercontent.com/20443793/139559246-ee2bf818-0365-4f68-8e91-8757bc66e685.PNG">
 
+## EERD (with new tables)
 ## Data Dictionary
 ### Delivery Table
 | Attributes    | Primary Key | Foreign Key | Data Type | size | null     | Description of the column                         |
