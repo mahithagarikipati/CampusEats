@@ -194,3 +194,7 @@ insert into student (person_id, position, is_admin) values
 ((select person_id from person where cell = cellno), 'Bus Driver', 'N');
 end if;
 END;
+## Queries
+## Indexes
+## Future Work
+
