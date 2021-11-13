@@ -217,6 +217,21 @@ CREATE TABLE `items` (
   CONSTRAINT `fk_Items_restaurant1` FOREIGN KEY (`restaurant_restaurant_id`) REFERENCES `restaurant` (`restaurant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+### Updated order table
+| Attributes      | Primary Key | Foreign Key | Data Type | size | null      | Description of the column                        |
+|-----------------|-------------|-------------|-----------|------|-----------|--------------------------------------------------|
+| order_id        | yes         |             | int       |      | not null  | id to identify the order (auto-increment)
+| person_id       |             | yes         | int       |      | not null  | id to identify the person                        |
+| delivery_id     |             | yes         | int       |      | not null  | id to identify the delivery                      |
+| location_id     |             | yes         | int       |      | not null  | id to identify the location                      |
+| driver_id       |             | yes         | int       |      | not null  | id to identify the driver                        |
+| restaurant_id   |             | yes         | int       |      | not null  | id to identify the restaurant                    |
+| total_price     |             |             | float     |      | not null  | total order price                                |
+| delivery_charge |             |             | float     |      | null      | delivery charge for the order                    |
+| order_date      |             |             | date      |      | not null  | date when order created                          |
+| order_time      |             |             | timestamp |      | not null  | time when order got created                      |
+| delivery_charge |             |             | float     |      | null      | delivery charge for the order                    |
+
 ### Adding order_items table
 | Attributes               | Primary Key | Foreign Key | Data Type | size | null     | Description of the column     |
 |--------------------------|-------------|-------------|-----------|------|----------|-------------------------------|
