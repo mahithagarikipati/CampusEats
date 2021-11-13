@@ -217,3 +217,12 @@ CREATE TABLE `items` (
   CONSTRAINT `fk_Items_restaurant1` FOREIGN KEY (`restaurant_restaurant_id`) REFERENCES `restaurant` (`restaurant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+### Adding order_items table
+| Attributes               | Primary Key | Foreign Key | Data Type | size | null     | Description of the column     |
+|--------------------------|-------------|-------------|-----------|------|----------|-------------------------------|
+| order_item_id            | yes         |             | int       |      | not null | id to identify orderItems     |
+| item_id                  |             | yes         | int       |      | not null | item id ordered               |
+| order_id                 |             | yes         | int       |      | not null | id of the order               |
+
+### Query
+
