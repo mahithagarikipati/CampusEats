@@ -194,7 +194,26 @@ insert into student (person_id, position, is_admin) values
 ((select person_id from person where cell = cellno), 'Bus Driver', 'N');
 end if;
 END;
-## Queries
-## Indexes
-## Future Work
+
+## Additional Changes
+### Adding Items table
+| Attributes               | Primary Key | Foreign Key | Data Type | size | null     | Description of the column     |
+|--------------------------|-------------|-------------|-----------|------|----------|-------------------------------|
+| item_id                  | yes         |             | int       |      | not null | id to identify each menu item |
+| item_name                |             |             | varchar   | 45   | null     | Name of the item              |
+| item_desc                |             |             | varchar   | 45   | null     | item description              |
+| item_price               |             |             | float     |      | null     | cost of the item              |
+| restaurant_restaurant_id |             | yes         | int       |      | not null | id to identify the restaurant |
+
+### Query
+CREATE TABLE `items` (
+  `item_id` int NOT NULL,
+  `item_name` varchar(45) DEFAULT NULL,
+  `item_desc` varchar(45) DEFAULT NULL,
+  `item_price` float DEFAULT NULL,
+  `restaurant_restaurant_id` int NOT NULL,
+  PRIMARY KEY (`item_id`,`restaurant_restaurant_id`),
+  KEY `fk_Items_restaurant1_idx` (`restaurant_restaurant_id`),
+  CONSTRAINT `fk_Items_restaurant1` FOREIGN KEY (`restaurant_restaurant_id`) REFERENCES `restaurant` (`restaurant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
