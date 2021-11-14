@@ -251,3 +251,28 @@ CREATE TABLE `order_items` (
    CONSTRAINT `fk_OrderItems_order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`),
   CONSTRAINT `fk_OrderItems_item_id` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+### Adding Rating table
+| Attributes      | Primary Key | Foreign Key | Data Type | size | null     | Description of the column         |
+|-----------------|-------------|-------------|-----------|------|----------|-----------------------------------|
+| Rating_id       | yes         |             | int       |      | not null | id to identify rating of an order |
+| order_id        |             | yes         | int       |      | null     | id of the order                   |
+| food_rating     |             |             | int       |      | null     | rating given for food 1-5         |
+| delivery_rating |             |             | int       |      | null     | delivery rating 1-5               |
+| image           |             |             | longblob  |      | null     | upload an image of the order      |
+| image_path      |             |             | varchar   | 45   | null     | image path saved                  |
+| comments        |             |             | varchar   | 100  | null     | describe the comments             |
+
+### Query
+CREATE TABLE `rating` (
+  `rating_id` int NOT NULL auto_increment,
+  `order_id` int default NULL,
+  `food_rating` int default NULL,
+  `delivery_rating` int DEFAULT NULL,
+  `image` LONGBLOB default NULL,
+  `image_path` varchar(45) default Null,
+  `comments` varchar(100) default NULL,
+  PRIMARY KEY (`rating_id`),
+  KEY `fk_rating_order_idx` (`order_id`),
+  CONSTRAINT `fk_rating_order_idx` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
