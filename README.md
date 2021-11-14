@@ -276,3 +276,47 @@ CREATE TABLE `rating` (
   KEY `fk_rating_order_idx` (`order_id`),
   CONSTRAINT `fk_rating_order_idx` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+### Procedure to add new restaurants in and near UNC charlotte - insert_into_restaurant
+
+CREATE PROCEDURE insert_into_restaurant
+(
+  location         VARCHAR(75),
+  restaurant_name  VARCHAR(75),
+  schedule     VARCHAR(75),
+  website           VARCHAR(75)
+)
+BEGIN
+  DECLARE location_var           VARCHAR(75);
+  IF length(restaurant_name) > 75 THEN
+    SIGNAL SQLSTATE '22001'
+      SET MESSAGE_TEXT = "Data too long for column 'restaurant_name' at row 1", 
+      MYSQL_ERRNO = 1406;
+  ELSEIF length(location) > 75 THEN
+    SIGNAL SQLSTATE '22001'
+      SET MESSAGE_TEXT = "Data too long for column 'location' at row 1", 
+      MYSQL_ERRNO = 1406;
+  ELSEIF length(schedule) > 75 THEN
+    SIGNAL SQLSTATE '22001'
+      SET MESSAGE_TEXT = "Data too long for column 'schedule' at row 1", 
+      MYSQL_ERRNO = 1406;
+  END IF;
+
+  IF location IS NULL THEN
+	SET location_var = "No location specified";
+  ELSE
+    SET location_var = location;
+  END IF;
+
+  INSERT INTO restaurant
+         (location, restaurant_name, 
+          restaurant.schedule, website)
+  VALUES ( location, restaurant_name, 
+          schedule, website);
+END//
+
+DELIMITER ;
+
+
+
+
