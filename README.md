@@ -196,6 +196,9 @@ end if;
 END;
 
 ## Additional Changes
+### Updated ERD
+![FinalERD](https://user-images.githubusercontent.com/20443793/141714435-b7676805-fd12-4ada-9ae1-b0092949df15.png)
+
 ### Adding Items table
 | Attributes               | Primary Key | Foreign Key | Data Type | size | null     | Description of the column     |
 |--------------------------|-------------|-------------|-----------|------|----------|-------------------------------|
