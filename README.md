@@ -230,7 +230,6 @@ CREATE TABLE `items` (
 | delivery_charge |             |             | float     |      | null      | delivery charge for the order                    |
 | order_date      |             |             | date      |      | not null  | date when order created                          |
 | order_time      |             |             | timestamp |      | not null  | time when order got created                      |
-| delivery_charge |             |             | float     |      | null      | delivery charge for the order                    |
 
 ### Adding order_items table
 | Attributes               | Primary Key | Foreign Key | Data Type | size | null     | Description of the column     |
