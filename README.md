@@ -332,6 +332,7 @@ CALL insert_into_restaurant('8948 J M Keynes Dr Suite 400, Charlotte, NC 28262',
 CALL insert_into_restaurant('9321 JW Clay Blvd, Charlotte, NC 28262', 'Panera Bread', '8:00 AM to 9:00 Pm', 'delivery.panerabread.com');
 
 ## Load Data
+The database is loaded with data for all tables. The insert script can be found (here) [https://github.com/mahithagarikipati/CampusEats/blob/main/InsertScripts/insertScript.sql]
 ## SQL queries for Information
 ### Retreive maximum, minimum, average food and delivery ratings for all orders of a restaurant given restaurant id
 A procedure call `max_min_avg_restaurant_rating` with in parameter having restaurant_id
