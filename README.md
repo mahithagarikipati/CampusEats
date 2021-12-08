@@ -378,6 +378,35 @@ AND ord.restaurant_id = restaurantId
 AND rate.food_rating >=0 ;                   
 END$$
 DELIMITER ;
+### Index is created on order and rating table
+
+call max_min_avg_restaurant_rating(1);
+
+The above procedure call takes 0.016 sec to execute - this procedure calculates the max, min and avg ratings of all orders in a restaurant.
+
+<img width="881" alt="Capture" src="https://user-images.githubusercontent.com/20443793/145080134-bbf0d0e3-72ab-4f08-bd95-4961b88de3ee.PNG">
+
+Index orderID is created on order table on the order_id and restaurant_id column 
+
+create index orderRestaurantID  ON `order`(order_id,restaurant_id);
+
+Index ratingId is created on rating table on the rating_id, food_rating, delivery_rating column 
+
+create index ratingVal ON rating(rating_id,food_rating,delivery_rating);
+
+This look up index reduced the procedure call time to 0.00 sec.
+
+![image](https://user-images.githubusercontent.com/20443793/145080341-c043c6d8-b0bf-404b-b1c4-8689f55bc7c5.png)
+
+It provides query optimization on the search query which contains restaurant id.
+
+Also, the min, max, avg operations are performed on food_rating and  delivery_rating which are indexed as well which will optimize the query.
+
+### display a count of the orders made by a customer for a specified date range when given a customer id
+### display total price of the orders by each customer (distinct) for a specified date range
+### display a particular customer’s rating for a restaurant
+
+
 
 
 
