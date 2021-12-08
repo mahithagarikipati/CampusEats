@@ -405,6 +405,29 @@ Also, the min, max, avg operations are performed on food_rating and  delivery_ra
 
 ### display a count of the orders made by a customer for a specified date range when given a customer id
 ### display total price of the orders by each customer (distinct) for a specified date range
+
+In order to get a total price of orders for each customer, a view has been created
+
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `campus_eats_fall2020`.`total_price_each_customer` AS
+    SELECT 
+        `p`.`person_id` AS `Person ID`,
+        ROUND(SUM(`o`.`total_price`), 2) AS `Total Price`
+    FROM
+        ((`campus_eats_fall2020`.`order` `o`
+        JOIN `campus_eats_fall2020`.`person` `p` ON ((`o`.`person_id` = `p`.`person_id`)))
+        JOIN `campus_eats_fall2020`.`delivery` `d` ON ((`o`.`delivery_id` = `d`.`delivery_id`)))
+    WHERE
+        (DATE_FORMAT(`d`.`delivery_time`, '%Y/%m/%d') BETWEEN '1980/01/1' AND '2020/01/01')
+    GROUP BY `o`.`person_id`
+  
+ To call the view  execute the following statement
+ 
+ select * from total_price_each_customer;
+ 
 ### display a particular customer’s rating for a restaurant
 
 
