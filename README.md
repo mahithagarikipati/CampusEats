@@ -2,7 +2,7 @@
   
 ## Team - ITCS 6160 - Group 8
 ### Members - Dhruvik Patel, Gowri Alwarsamy, Mahitha Garikipati, Sakshi Kaondal
-### [Web Page Link](https://github.com/mahithagarikipati/CampusEats/deployments/activity_log?environment=github-pages)
+### [Web Page Link - click here](https://github.com/mahithagarikipati/CampusEats/deployments/activity_log?environment=github-pages)
 ## Project Introduction
 The idea of this project is to understand and enhance a test database for a campus-controlled food delivery service like craveoncampus.com. This database is enhanced to provide rating system for both restaurants and delivery drivers. The purpose for having this system is due the threat of the Corona virus the reason for having food delivery services became more important than before. 
 
