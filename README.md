@@ -413,7 +413,8 @@ CREATE OR REPLACE
 VIEW `campus_eats_fall2020`.`total_orders_each_customer` AS
     SELECT 
         `p`.`person_id` AS `Person ID`,
-        COUNT(DISTINCT(`o`.`order_id`)) AS `Total Orders`
+        COUNT(DISTINCT(`o`.`order_id`)) AS `Total Orders`,
+        delivery_time AS delivery_date
     FROM
         ((`campus_eats_fall2020`.`order` `o`
         JOIN `campus_eats_fall2020`.`person` `p` ON ((`o`.`person_id` = `p`.`person_id`)))
@@ -422,8 +423,6 @@ VIEW `campus_eats_fall2020`.`total_orders_each_customer` AS
         (DATE_FORMAT(`d`.`delivery_time`, '%Y/%m/%d') BETWEEN '1980/01/1' AND '2020/01/01')
     GROUP BY `o`.`person_id`;
 
-
-select * from total_orders_each_customer;
 
 ### display total price of the orders by each customer (distinct) for a specified date range
 
