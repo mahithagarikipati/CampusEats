@@ -5,7 +5,8 @@ CREATE OR REPLACE
 VIEW `campus_eats_fall2020`.`total_orders_each_customer` AS
     SELECT 
         `p`.`person_id` AS `Person ID`,
-        COUNT(DISTINCT(`o`.`order_id`)) AS `Total Orders`
+        COUNT(DISTINCT(`o`.`order_id`)) AS `Total Orders`,
+        delivery_time AS delivery_date
     FROM
         ((`campus_eats_fall2020`.`order` `o`
         JOIN `campus_eats_fall2020`.`person` `p` ON ((`o`.`person_id` = `p`.`person_id`)))
