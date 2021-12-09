@@ -404,6 +404,27 @@ It provides query optimization on the search query which contains restaurant id.
 Also, the min, max, avg operations are performed on food_rating and  delivery_rating which are indexed as well which will optimize the query.
 
 ### display a count of the orders made by a customer for a specified date range when given a customer id
+In order to get the count of orders for a specific range for a given customer a view is created
+
+CREATE OR REPLACE
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `campus_eats_fall2020`.`total_orders_each_customer` AS
+    SELECT 
+        `p`.`person_id` AS `Person ID`,
+        COUNT(DISTINCT(`o`.`order_id`)) AS `Total Orders`
+    FROM
+        ((`campus_eats_fall2020`.`order` `o`
+        JOIN `campus_eats_fall2020`.`person` `p` ON ((`o`.`person_id` = `p`.`person_id`)))
+        JOIN `campus_eats_fall2020`.`delivery` `d` ON ((`o`.`delivery_id` = `d`.`delivery_id`)))
+    WHERE
+        (DATE_FORMAT(`d`.`delivery_time`, '%Y/%m/%d') BETWEEN '1980/01/1' AND '2020/01/01')
+    GROUP BY `o`.`person_id`;
+
+
+select * from total_orders_each_customer;
+
 ### display total price of the orders by each customer (distinct) for a specified date range
 
 In order to get a total price of orders for each customer, a view has been created
@@ -430,7 +451,27 @@ VIEW `campus_eats_fall2020`.`total_price_each_customer` AS
  
 ### display a particular customer’s rating for a restaurant
 
+A view is created to display all the ratings of a customer on an average for each restaurant
 
 
+CREATE OR REPLACE
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `campus_eats_fall2020`.`customer_ratings` AS
+    SELECT 
+        `p`.`person_id` AS `Person ID`,
+        ROUND(avg(r.food_rating),2) as `Food Rating`,
+        o.restaurant_id As restaurantID
+        
+    FROM
+        ((`campus_eats_fall2020`.`order` `o`
+        JOIN `campus_eats_fall2020`.`person` `p` ON ((`o`.`person_id` = `p`.`person_id`)))
+        JOIN `campus_eats_fall2020`.`rating` `r` ON ((`o`.`order_id` = `r`.`order_id`)))
+    GROUP BY `p`.`person_id`;
+
+To execute the view
+
+select * from customer_ratings;
 
 
